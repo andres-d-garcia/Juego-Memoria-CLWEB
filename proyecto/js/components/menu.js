@@ -119,8 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Selecciona una dificultad antes de jugar.');
             return;
           }
+          if (!gameState.selectedMode) {
+            alert('Selecciona un modo de juego antes de jugar.');
+            return;
+          }
           const totalCards = difficultyBoardSize[selectedDifficulty] || 16;
           renderGameBoard(totalCards);
+          if (window.gameLogic) window.gameLogic.start();
           setGameMode(true);
         });
       }
@@ -128,6 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (exitButton) {
         exitButton.addEventListener('click', () => {
           boardContainer.innerHTML = '';
+          if (window.gameTimer) window.gameTimer.stop();
+          
+          const gameHud = document.getElementById('game-hud');
+          if (gameHud) gameHud.classList.add('hidden');
+          
           setGameMode(false);
         });
       }

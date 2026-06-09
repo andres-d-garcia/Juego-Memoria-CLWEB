@@ -18,7 +18,7 @@
     <section id="Game-container">
         <div id="menu-row">
             <section class="menu-card">
-                <h2>Selecciona tu modo de juego</h2>
+                <h2>Selecciona modo de juego</h2>
                 <div id="mode-options" >
                     <button class="mode-btn" data-mode="single">Un jugador</button>
                     <button class="mode-btn" data-mode="multiplayer">Multi jugador</button>
@@ -27,20 +27,20 @@
             </section>
 
             <section id="menu-Dificultad" class="menu-card">
-                <h2>Selecciona tu dificultad</h2>
+                <h2>Selecciona la dificultad</h2>
                 <div id="opciones-dificultad">
-                    <button id="difficulty-btn" data-difficulty="easy">Fácil</button>
-                    <button id="difficulty-btn" data-difficulty="medium">Medio</button>
-                    <button id="difficulty-btn" data-difficulty="hard">Difícil</button>
+                    <button class="difficulty-btn" data-difficulty="easy">Fácil</button>
+                    <button class="difficulty-btn" data-difficulty="medium">Medio</button>
+                    <button class="difficulty-btn" data-difficulty="hard">Difícil</button>
                 </div>
             </section>
         </div>
 
         <section id="theme-section" class="menu-card">
-            <h2 id="theme-title">Selecciona tu tema</h2>
+            <h2 id="theme-title">Selecciona el tema</h2>
             <div id="opciones-temas">
                 <button id="z-fighters" data-theme="z-fighters">Guerreros Z</button>
-                <button id="dragon-balls" data-theme="dragon-balls">Esferas del dragón</button>
+                <button id="dragon-balls" data-theme="dragon-balls">Miscelaneos</button>
                 <button id="villains" data-theme="villains">Villanos</button>
             </div>
         </section>
@@ -48,6 +48,14 @@
     </section>
 
     <section id="game">
+        <header id="game-hud" class="hidden">
+            <div class="hud-item" id="hud-players">Jugador</div>
+            <div class="hud-item" id="hud-moves">Movimientos: <span id="moves-count">0</span></div>
+            <div class="hud-item" id="hud-timer">Tiempo: <span id="timer-count">00:00</span></div>
+            <div class="hud-item" id="hud-score">
+                <span id="score-p1" class="active-player">J1: 0</span> | <span id="score-p2">J2: 0</span>
+            </div>
+        </header>
         <button id="play-button">Jugar</button>
         <div id="board-container"></div>
         <button id="exit-button" class="hidden" aria-label="Cerrar">X</button>
@@ -66,6 +74,7 @@
     <script defer src="js/components/modes.js"></script>
     <script defer src="js/components/game.js"></script>
     <script defer src="js/components/boardRenderer.js"></script>
+    <script defer src="js/components/timer.js"></script>
     <script defer src="js/components/hud.js"></script>
     <script defer src="js/components/achievements.js"></script>
     <script defer src="js/components/endScreen.js"></script>

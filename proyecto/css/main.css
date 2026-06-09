@@ -41,6 +41,15 @@ body {
     align-content: center; 
 }
 
+/* Al iniciar el juego, limitamos la altura a 100vh y usamos flex para evitar que el tablero requiera scroll */
+body.game-active {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    padding: 1.5rem 0.5rem 0.5rem;
+}
+
 /* Apply Saiyan Sans to main title and play button */
 #mainTitle h1, #play-button {
     font-family: 'Saiyan Sans', 'Staatliches', cursive, system-ui, sans-serif;
@@ -203,15 +212,20 @@ button.selected {
 }
 
 #board-container .board {
-    width: 100%;
+    width: min(100%, calc(100vh - 220px));
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
 }
 
 /* Board cards inside index (hidden content until active) */
 #board-container .card {
-    aspect-ratio: 1 / 1;
-    min-height: 72px;
+    width: 100%;
+    height: 100%;
     border-radius: 16px;
-    background: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.08);
+    background-image: url('/proyecto/assets/icons/cartas/67b6cba7f65befc562b71a6e95f25218-removebg-preview.png'); /* Ruta a la imagen de tu reverso */
+    background-size: cover;
+    background-position: center;
     border: 1px solid rgba(255, 255, 255, 0.16);
     color: transparent; /* hide value until active */
     font-size: 1rem;
@@ -277,7 +291,35 @@ button.selected {
 
 #game {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    padding-top: 0;
+    height: 100%;
+}
+
+#game-hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    width: 100%;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hud-item {
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+}
+
+.active-player {
+    color: #FF6204 !important;
+    text-shadow: 0 0 10px #FF6204;
 }
 
 #play-button {
@@ -314,6 +356,13 @@ body.game-active::before {
     pointer-events: none;
 }
 
+body.game-active #game {
+    max-width: 950px !important;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
 #game {
     position: relative;
     z-index: 2;
@@ -322,11 +371,15 @@ body.game-active::before {
 #board-container {
     display: none;
     width: 100%;
-    margin-top: 1.5rem;
+    flex: 1;
+    min-height: 0;
+    margin-top: 1rem;
 }
 
 #board-container.active {
-    display: block !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
 }
 
 #exit-button {
@@ -339,7 +392,6 @@ body.game-active::before {
     padding: 0;
     align-items: center;
     justify-content: center;
-    background-color: #FF6204;
     color: #ffffff;
     border: none;
     border-radius: 50%;
