@@ -19,18 +19,19 @@
         <div id="menu-row">
             <section class="menu-card">
                 <h2>Selecciona tu modo de juego</h2>
-                <div id="mode-options">
+                <div id="mode-options" >
                     <button class="mode-btn" data-mode="single">Un jugador</button>
-                    <button class="mode-btn" data-mode="multiplayer">Multijugador</button>
+                    <button class="mode-btn" data-mode="multiplayer">Multi jugador</button>
+                    <button class="mode-btn" data-mode="practice">Modo Práctica</button>
                 </div>
             </section>
 
             <section id="menu-Dificultad" class="menu-card">
                 <h2>Selecciona tu dificultad</h2>
-                <div id="difficulty-options">
-                    <button class="difficulty-btn" data-difficulty="easy">Fácil</button>
-                    <button class="difficulty-btn" data-difficulty="medium">Medio</button>
-                    <button class="difficulty-btn" data-difficulty="hard">Difícil</button>
+                <div id="opciones-dificultad">
+                    <button id="difficulty-btn" data-difficulty="easy">Fácil</button>
+                    <button id="difficulty-btn" data-difficulty="medium">Medio</button>
+                    <button id="difficulty-btn" data-difficulty="hard">Difícil</button>
                 </div>
             </section>
         </div>
@@ -38,14 +39,21 @@
         <section id="theme-section" class="menu-card">
             <h2 id="theme-title">Selecciona tu tema</h2>
             <div id="opciones-temas">
-                <button id="dragon-balls">Esferas del dragón</button>
-                <button id="z-fighters">Guerreros Z</button>
-                <button id="villains">Villanos</button>
+                <button id="z-fighters" data-theme="z-fighters">Guerreros Z</button>
+                <button id="dragon-balls" data-theme="dragon-balls">Esferas del dragón</button>
+                <button id="villains" data-theme="villains">Villanos</button>
             </div>
         </section>
 
-        <section id="game"></section>
     </section>
+
+    <section id="game">
+        <button id="play-button">Jugar</button>
+        <div id="board-container"></div>
+        <button id="exit-button" class="hidden" aria-label="Cerrar">X</button>
+    </section>
+
+    
     
 
     <!-- Scripts: core, data, components, app (sin módulos) -->

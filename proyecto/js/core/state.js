@@ -1,6 +1,6 @@
-// state.js - Objeto gameState global (no modules)
-window.gameState = window.gameState || {
-  mode: 'solitario',
-  difficulty: 'normal',
-  progress: { wins: 0, losses: 0 }
-};
+const gameState = {
+    selectedMode: null, // 'single', 'multiplayer', 'practice'
+    selectedTheme: null, // 'z-fighters', 'dragon-balls', 'villains'
+    selectedDifficulty: null, // 'easy', 'medium', 'hard'
+    isConfigured: false
+}   

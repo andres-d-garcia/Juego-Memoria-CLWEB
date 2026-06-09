@@ -1,123 +1,186 @@
 /* main.css - Estilos globales, tipografías y reset */
-:root{
-    background-color:#1C1C1C;
-  --bg: url(../assets/icons/fondoMainXV2.png) no-repeat 10% center/cover;
-  --text:#ffffff;
+:root {
+    background-color: #1C1C1C;
+    --bg: url(../assets/icons/fondoMainXV2.png) no-repeat 10% center/cover;
+    --text: #ffffff;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-html,body,#app{height:100%}
-body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+/* Local Saiyan Sans font */
+@font-face {
+    font-family: 'Saiyan Sans';
+    src: url('../assets/fonts/saiyan_sans/Saiyan-Sans.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
-*{
-    transition:all .3s ease;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: all .3s ease;
     font-family: 'Staatliches', cursive;
-    letter-spacing:0.05em;
-    color:var(--text);
+    letter-spacing: 0.05em;
+    color: var(--text);
 }
 
+html, #app {
+    height: 100%;
+}
+
+body {
+    font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+    
+    /* --- CSS Grid para la estructura principal --- */
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr; /* Ajusta estos valores si quieres más espacio para el fondo o el menú */
+    align-content: center; 
+}
+
+/* Apply Saiyan Sans to main title and play button */
+#mainTitle h1, #play-button {
+    font-family: 'Saiyan Sans', 'Staatliches', cursive, system-ui, sans-serif;
+    font-size: 3.5rem;
+}
+
+/* --- Posicionamiento en la columna derecha --- */
 #mainTitle,
-#opciones-temas {
-    display:flex;
-    flex-direction:column;
-    padding:0.8rem 1rem;
-    max-width:720px;
-    width:min(100%,720px);
-    margin-left:53%;
+#Game-container,
+#game {
+    margin-top: 0px;
+    grid-column: 2;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: none;
+}
+
+#mainTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    text-align: start;
+    padding-bottom: 1rem;
 }
 
 #Game-container {
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-    align-items:center;
-    width:min(100%,1120px);
-    margin:0 auto;
-    padding:1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1rem 0;
 }
-
 #menu-row {
-    display:flex;
-    flex-wrap:wrap;
-    gap:1rem;
-    justify-content:center;
-    width:100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Fuerza exactamente 2 bloques en la misma fila */
+    gap: 2rem;
+    width: 100%;
 }
 
 .menu-card {
-    display:flex;
-    flex-direction:column;
-    gap:0.8rem;
-    padding:0.8rem 1rem;
-    width:min(100%,360px);
-    border-radius:18px;
-}
-
-#mode-options,
-#menu-Dificultad div {
-    display:flex;
-    flex-wrap:wrap;
-    gap:0.8rem;
-}
-
-#menu-Dificultad button, #mode-options button {
-    margin:0.5rem 0;
-    background-color:#FF6204;
-    color:#ffffff;
-    font-size:0.9rem;
-    border-radius:8px;
-    padding:0.5rem 1rem;
-    cursor:pointer;
-    margin-right: 1.2rem;
-}
-
-#menu-row {
-    display:flex;
-    flex-wrap:wrap;
-    gap:1rem;
-    justify-content:center;
-    margin-left: 73%;
-}
-
-#theme-title {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    padding:0.8rem 1rem;
-    max-width:720px;
-    width:min(100%,720px);
-    margin:0 auto;
-    margin-left: 52%;
-}
-
-#theme-section {
-    display:flex;
-    flex-direction:column;
-    gap:1rem;
-    align-items:center;
-    width:min(100%,1120px);
-    margin:0 auto;
-    padding:1rem 0;
-    margin-left: 1.5%;
-}
-
-#opciones-temas {
-    width: min(100%,720px);
-    display:flex;
-    flex-direction: row;
     gap: 0.8rem;
+    padding: 0.7rem 1rem;
+    width: 100%; /* Eliminamos el límite de píxeles; ahora el grid les da exactamente el 50% de la fila a cada uno */
+    border-radius: 18px;
+    text-align: center;
+}
+#mode-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 0.8rem;
+}
+
+#menu-Dificultad div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 0.8rem;
+}
+
+#menu-Dificultad button:last-child,
+#mode-options button:last-child {
+    grid-column: 1 / -1;
+}
+
+#mode-options button, 
+#menu-Dificultad button {
+    background-color: #FF6204;
+    color: #ffffff;
     font-size: 0.9rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-left: 64.5%;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: transform .18s ease, opacity .18s ease, filter .18s ease, box-shadow .18s ease;
+    will-change: transform, opacity, filter, box-shadow;
+
 }
 
 #opciones-temas button {
+    position: relative;
+    overflow: hidden;
+    transition: transform .18s ease, opacity .18s ease, filter .18s ease, box-shadow .18s ease;
+    will-change: transform, opacity, filter, box-shadow;
+}
+
+#mode-options button:hover, 
+#menu-Dificultad button:hover, 
+#opciones-temas button:hover {
+    transform: scale(1.06);
+    opacity: 0.95;
+    filter: brightness(1.12) saturate(1.05);
+    box-shadow: 0 10px 24px rgba(255, 98, 4, 0.18), 0 4px 10px rgba(0, 0, 0, 0.18);
+    z-index: 2;
+}
+
+button.selected {
+    background-color: #ff8c12;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 2.5px rgba(255, 154, 50, 0.3);
+    transform: translateY(-1px);
+}
+
+#theme-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+#theme-title {
+    text-align: center;
+    width: 100%;
+}
+
+#opciones-temas {
+    display: flex;
+    flex-direction: row;
+    gap: 0.8rem;
+    font-size: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding-right: 1rem;
+}
+
+#opciones-temas button,
+#opciones-tablero button {
     flex: 1 1 calc(33.333% - 0.8rem);
     min-block-size: 50px;
     padding: 0.9rem 1.3rem;
     border-radius: 16px;
     border: none;
-
     font-size: 1.5rem;
     color: #ffffff;
     cursor: pointer;
@@ -125,6 +188,58 @@ body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+#opciones-tablero {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    width: 100%;
+}
+
+#board-container {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+#board-container .board {
+    width: 100%;
+}
+
+/* Board cards inside index (hidden content until active) */
+#board-container .card {
+    aspect-ratio: 1 / 1;
+    min-height: 72px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: transparent; /* hide value until active */
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .12s ease;
+    display: grid;
+    place-items: center;
+}
+
+#board-container .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
+}
+
+/* Active (revealed) card */
+#board-container .card.active {
+    background: #7c3aed;
+    color: #ffffff;
+}
+
+/* Matched card */
+#board-container .card.matched {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.18);
+    opacity: 0.8;
+    color: #ffffff;
+    cursor: default;
 }
 
 #dragon-balls {
@@ -158,4 +273,147 @@ body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background
     background-repeat: no-repeat;
     background-position: 50% 20%;
     background-size: 150% 1000%;
+}
+
+#game {
+    display: flex;
+    justify-content: center;
+}
+
+#play-button {
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    margin-top: 4rem;
+    margin-left: 12rem;
+    transition: transform .22s cubic-bezier(.2,.9,.2,1), filter .18s ease, box-shadow .18s ease, opacity .18s ease;
+    will-change: transform, filter, box-shadow, opacity;
+}
+
+#play-button:hover {
+    transform: scale(1.08);
+    filter: brightness(1.14) saturate(1.08);
+    opacity: 0.98;
+    z-index: 10;
+}
+
+.hidden {
+    display: none !important;
+}
+
+body.game-active::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    pointer-events: none;
+}
+
+#game {
+    position: relative;
+    z-index: 2;
+}
+
+#board-container {
+    display: none;
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+#board-container.active {
+    display: block !important;
+}
+
+#exit-button {
+    display: inline-flex;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: #FF6204;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    z-index: 10010;
+}
+
+/* visibility controlled via .hidden */
+
+#exit-button[aria-label] {
+    line-height: 1;
+}
+
+#mainTitle,
+#Game-container,
+#game {
+    margin-top: 0px;
+    grid-column: 2;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: none;
+}
+
+
+/* --- Responsive: Ajustes para pantallas pequeñas --- */
+@media (max-width: 900px) {
+    body {
+        grid-template-columns: 1fr; /* Cambia a una sola columna */
+        padding: 2rem 0.5rem;
+        background: none;
+    }
+
+    #mainTitle,
+    #Game-container,
+    #game {
+        grid-column: 1; /* Todo el contenido pasa a la primera (y única) columna */
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: var(--bg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        filter: blur(6px) brightness(0.6);
+        -webkit-filter: blur(6px) brightness(0.6);
+        transform: scale(1.03);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    #menu-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-card {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    #mode-options,
+    #menu-Dificultad div {
+        grid-template-columns: 1fr;
+    }
+
+    #play-button {
+        font-size: 6rem;
+    }
 }
