@@ -9,11 +9,15 @@ function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-function createBoardItems(totalCards) {
+function createBoardItems(totalCards, theme) {
   const pairCount = totalCards / 2;
   const items = [];
+  
+  const themeItems = (window.themes && window.themes[theme]) ? window.themes[theme] : [];
+
   for (let i = 1; i <= pairCount; i++) {
-    items.push(i, i);
+    const itemValue = (i - 1 < themeItems.length) ? themeItems[i - 1] : i;
+    items.push(itemValue, itemValue);
   }
   return shuffleArray(items);
 }
@@ -22,7 +26,8 @@ function renderGameBoard(totalCards) {
   const boardContainer = document.querySelector('#board-container');
   if (!boardContainer) return;
 
-  const items = createBoardItems(totalCards);
+  const theme = window.gameState.selectedTheme || 'z-fighters';
+  const items = createBoardItems(totalCards, theme);
   const dimensions = boardSizeMap[totalCards] || { rows: 4, cols: 4 };
   gameState.selectedBoardSize = totalCards;
   gameState.boardDimensions = dimensions;

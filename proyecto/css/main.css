@@ -243,13 +243,19 @@ button.selected {
 
 /* Active (revealed) card */
 #board-container .card.active {
-    background: #7c3aed;
+    background-color: #7c3aed;
+    background-image: var(--card-front-img, none);
+    background-size: cover;
+    background-position: center;
     color: #ffffff;
 }
 
 /* Matched card */
 #board-container .card.matched {
-    background: rgba(255,255,255,0.12);
+    background-color: rgba(255,255,255,0.12);
+    background-image: var(--card-front-img, none);
+    background-size: cover;
+    background-position: center;
     border-color: rgba(255,255,255,0.18);
     opacity: 0.8;
     color: #ffffff;

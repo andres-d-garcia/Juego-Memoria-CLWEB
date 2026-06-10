@@ -27,10 +27,17 @@ function renderBoard(container, items, dimensions) {
     cell.type = 'button';
     cell.dataset.value = value;
 
+    // Si el valor es una ruta de imagen (contiene un '/'), lo preparamos como variable CSS para usar de fondo
+    if (typeof value === 'string' && value.includes('/')) {
+        cell.style.setProperty('--card-front-img', `url('${value}')`);
+    }
+
     // Estructura interna: un span para el valor (permite ocultarlo por CSS)
     const face = document.createElement('span');
     face.className = 'card-face';
-    face.textContent = value;
+    if (!(typeof value === 'string' && value.includes('/'))) {
+        face.textContent = value;
+    }
     cell.appendChild(face);
 
     cell.addEventListener('click', () => {
