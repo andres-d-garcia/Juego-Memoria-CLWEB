@@ -57,13 +57,19 @@ body.game-active {
 }
 
 /* --- Posicionamiento en la columna derecha --- */
+#main-menu {
+    grid-column: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 #mainTitle,
 #Game-container,
 #game {
     margin-top: 0px;
-    grid-column: 2;
     width: 100%;
-    max-width: 720px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 0 1rem;
     display: none;
@@ -72,8 +78,8 @@ body.game-active {
 #mainTitle {
     display: flex;
     flex-direction: column;
-    align-items: start;
-    text-align: start;
+    align-items: flex-start;
+    text-align: left;
     padding-bottom: 1rem;
 }
 
@@ -103,13 +109,13 @@ body.game-active {
 #mode-options {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem 0.8rem;
+    gap: 1.2rem 1.5rem;
 }
 
 #menu-Dificultad div {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem 0.8rem;
+    gap: 1.2rem 1.5rem;
 }
 
 #menu-Dificultad button:last-child,
@@ -121,9 +127,9 @@ body.game-active {
 #menu-Dificultad button {
     background-color: #FF6204;
     color: #ffffff;
-    font-size: 0.9rem;
-    border-radius: 8px;
-    padding: 0.9rem 1rem;
+    font-size: 1.6rem;
+    border-radius: 12px;
+    padding: 1.2rem 2.5rem;
     cursor: pointer;
     width: 100%;
     border: none;
@@ -186,11 +192,11 @@ button.selected {
 #opciones-temas button,
 #opciones-tablero button {
     flex: 1 1 calc(33.333% - 0.8rem);
-    min-block-size: 50px;
-    padding: 0.9rem 1.3rem;
-    border-radius: 16px;
+    min-block-size: 80px;
+    padding: 1.2rem 3rem;
+    border-radius: 20px;
     border: none;
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     color: #ffffff;
     cursor: pointer;
     display: inline-flex;
@@ -429,18 +435,6 @@ body.game-active #game {
     line-height: 1;
 }
 
-#mainTitle,
-#Game-container,
-#game {
-    margin-top: 0px;
-    grid-column: 2;
-    width: 100%;
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: none;
-}
-
 
 /* --- Responsive: Ajustes para pantallas pequeñas --- */
 @media (max-width: 900px) {
@@ -450,10 +444,9 @@ body.game-active #game {
         background: none;
     }
 
-    #mainTitle,
-    #Game-container,
-    #game {
+    #main-menu {
         grid-column: 1; /* Todo el contenido pasa a la primera (y única) columna */
+        margin: 0 auto;
     }
 
     body::before {
@@ -469,6 +462,11 @@ body.game-active #game {
         transform: scale(1.03);
         z-index: -1;
         pointer-events: none;
+    }
+
+    #mainTitle {
+        align-items: center;
+        text-align: center;
     }
 
     #menu-row {

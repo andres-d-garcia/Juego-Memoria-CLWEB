@@ -10,11 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
 </head>
 <body>
+    <section id="main-menu">
     <section id="mainTitle">
         <h1>Memory Tenkaichi</h1>
         <p>¡Desafía tu memoria en este emocionante juego!</p>
     </section>
-
     <section id="Game-container">
         <div id="menu-row">
             <section class="menu-card">
@@ -46,19 +46,20 @@
         </section>
 
     </section>
-
+    
     <section id="game">
         <header id="game-hud" class="hidden">
             <div class="hud-item" id="hud-players">Jugador</div>
             <div class="hud-item" id="hud-moves">Movimientos: <span id="moves-count">0</span></div>
             <div class="hud-item" id="hud-timer">Tiempo: <span id="timer-count">00:00</span></div>
             <div class="hud-item" id="hud-score">
-                <span id="score-p1" class="active-player">J1: 0</span> | <span id="score-p2">J2: 0</span>
+                <span id="score-p1" class="active-player">J1: 0</span>  |  <span id="score-p2">J2: 0</span>
             </div>
         </header>
         <button id="play-button">Jugar</button>
         <div id="board-container"></div>
         <button id="exit-button" class="hidden" aria-label="Cerrar">X</button>
+    </section>
     </section>
 
     
