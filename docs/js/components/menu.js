@@ -145,5 +145,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 });
 
- const audio = document.getElementById("miAudio");
-  audio.volume = 0.4; 
+const audio = document.getElementById("miAudio");
+if (audio) {
+    audio.volume = 0.4; 
+
+    // Iniciar la música con la primera interacción del usuario
+    document.body.addEventListener('click', function() {
+        if (audio.paused) {
+            audio.play().catch(error => console.log("Autoplay bloqueado por el navegador:", error));
+        }
+    }, { once: true });
+}
