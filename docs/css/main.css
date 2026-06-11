@@ -246,7 +246,7 @@ button.selected {
     height: 100%;
     border-radius: 16px;
     background-color: rgba(255, 255, 255, 0.08);
-    background-image: url('/proyecto/assets/icons/cartas/67b6cba7f65befc562b71a6e95f25218-removebg-preview.png'); /* Ruta a la imagen de tu reverso */
+    background-image: url('../assets/icons/cartas/67b6cba7f65befc562b71a6e95f25218-removebg-preview.png'); /* Ruta a la imagen de tu reverso */
     background-size: cover;
     background-position: center;
     border: 1px solid rgba(255, 255, 255, 0.16);
