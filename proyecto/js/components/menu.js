@@ -1,149 +1,149 @@
 // menu.js - captura del formulario de inicio y validación
-const boardSizeMap = {
-  16: { rows: 4, cols: 4 },
-  36: { rows: 6, cols: 6 },
-  64: { rows: 8, cols: 8 }
+const mapaTamanosTablero = {
+  16: { filas: 4, columnas: 4 },
+  36: { filas: 6, columnas: 6 },
+  64: { filas: 8, columnas: 8 }
 };
 
-function shuffleArray(array) {
-  return array.sort(() => Math.random() - 0.5);
+function mezclarArreglo(arreglo) {
+  return arreglo.sort(() => Math.random() - 0.5);
 }
 
-function createBoardItems(totalCards, theme) {
-  const pairCount = totalCards / 2;
-  const items = [];
+function crearElementosTablero(totalCartas, tema) {
+  const pares = totalCartas / 2;
+  const elementos = [];
   
-  const themeItems = (window.themes && window.themes[theme]) ? window.themes[theme] : [];
+  const itemsTema = (window.datosTemas && window.datosTemas[tema]) ? window.datosTemas[tema] : [];
 
-  for (let i = 1; i <= pairCount; i++) {
-    const itemValue = (i - 1 < themeItems.length) ? themeItems[i - 1] : i;
-    items.push(itemValue, itemValue);
+  for (let i = 1; i <= pares; i++) {
+    const valorItem = (i - 1 < itemsTema.length) ? itemsTema[i - 1] : i;
+    elementos.push(valorItem, valorItem);
   }
-  return shuffleArray(items);
+  return mezclarArreglo(elementos);
 }
 
-function renderGameBoard(totalCards) {
-  const boardContainer = document.querySelector('#board-container');
-  if (!boardContainer) return;
+function prepararTablero(totalCartas) {
+  const contenedorTablero = document.querySelector('#board-container');
+  if (!contenedorTablero) return;
 
-  const theme = window.gameState.selectedTheme || 'z-fighters';
-  const items = createBoardItems(totalCards, theme);
-  const dimensions = boardSizeMap[totalCards] || { rows: 4, cols: 4 };
-  gameState.selectedBoardSize = totalCards;
-  gameState.boardDimensions = dimensions;
-  gameState.totalPairs = totalCards / 2;
+  const tema = window.estadoJuego.temaSeleccionado || 'z-fighters';
+  const elementos = crearElementosTablero(totalCartas, tema);
+  const dimensiones = mapaTamanosTablero[totalCartas] || { filas: 4, columnas: 4 };
+  window.estadoJuego.tamanoTableroSeleccionado = totalCartas;
+  window.estadoJuego.dimensionesTablero = dimensiones;
+  window.estadoJuego.paresTotales = totalCartas / 2;
 
-  if (window.renderBoard) {
-    window.renderBoard(boardContainer, items, dimensions);
+  if (window.renderizarTablero) {
+    window.renderizarTablero(contenedorTablero, elementos, dimensiones);
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-      const diffButtons = document.querySelectorAll('#opciones-dificultad button');
-      const modeButtons = document.querySelectorAll('.mode-btn');
-      const themeButtons = document.querySelectorAll('#opciones-temas button');
-      const playButton = document.querySelector('#play-button');
-      const exitButton = document.querySelector('#exit-button');
-      const boardContainer = document.querySelector('#board-container');
-      const menuSections = [
+      const botonesDificultad = document.querySelectorAll('#opciones-dificultad button');
+      const botonesModo = document.querySelectorAll('.mode-btn');
+      const botonesTema = document.querySelectorAll('#opciones-temas button');
+      const botonJugar = document.querySelector('#play-button');
+      const botonSalir = document.querySelector('#exit-button');
+      const contenedorTablero = document.querySelector('#board-container');
+      const seccionesMenu = [
         document.querySelector('#mainTitle'),
         document.querySelector('#Game-container')
       ];
 
-      const difficultyBoardSize = {
-        easy: 16,
-        medium: 36,
-        hard: 64
+      const tamanoTableroDificultad = {
+        facil: 16,
+        medio: 36,
+        dificil: 64
       };
 
-      const toggleActive = (buttons, activeButton) => {
-        buttons.forEach(btn => {
-          btn.classList.toggle('selected', btn === activeButton);
+      const alternarActivo = (botones, botonActivo) => {
+        botones.forEach(boton => {
+          boton.classList.toggle('selected', boton === botonActivo);
         });
       };
 
-      const setGameMode = (active) => {
-        document.body.classList.toggle('game-active', active);
-        menuSections.forEach(section => {
-          if (section) {
-            section.style.display = active ? 'none' : 'block';
+      const establecerModoJuego = (activo) => {
+        document.body.classList.toggle('game-active', activo);
+        seccionesMenu.forEach(seccion => {
+          if (seccion) {
+            seccion.style.display = activo ? 'none' : 'block';
           }
         });
-        playButton.classList.toggle('hidden', active);
-        exitButton.classList.toggle('hidden', !active);
-        boardContainer.classList.toggle('active', active);
+        if (botonJugar) botonJugar.classList.toggle('hidden', activo);
+        if (botonSalir) botonSalir.classList.toggle('hidden', !activo);
+        if (contenedorTablero) contenedorTablero.classList.toggle('active', activo);
       };
 
-      uiSections = [
+      let seccionesUI = [
         document.querySelector('#mainTitle'),
         document.querySelector('#Game-container'),
         document.querySelector('#game')
       ];
 
-      [document.querySelector('#mainTitle'), document.querySelector('#Game-container')].forEach(section => {
-        if (section) {
-          section.style.display = 'block';
+      [document.querySelector('#mainTitle'), document.querySelector('#Game-container')].forEach(seccion => {
+        if (seccion) {
+          seccion.style.display = 'block';
         }
       });
       if (document.querySelector('#game')) {
         document.querySelector('#game').style.display = 'flex';
       }
 
-      diffButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const selectedDifficulty = button.getAttribute('data-difficulty'); // 'easy', 'medium', 'hard'
-          gameState.selectedDifficulty = selectedDifficulty;
-          gameState.isConfigured = true;
-          toggleActive(diffButtons, button);
-          console.log('Dificultad seleccionada:', selectedDifficulty);
+      botonesDificultad.forEach(boton => {
+        boton.addEventListener('click', () => {
+          const dificultadSeleccionada = boton.getAttribute('data-dificultad');
+          window.estadoJuego.dificultadSeleccionada = dificultadSeleccionada;
+          window.estadoJuego.estaConfigurado = true;
+          alternarActivo(botonesDificultad, boton);
         });
       });
 
-      modeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const selectedMode = button.getAttribute('data-mode'); // 'single', 'multiplayer', 'practice'
-          gameState.selectedMode = selectedMode;
-          toggleActive(modeButtons, button);
-          console.log('Modo seleccionado:', selectedMode);
+      botonesModo.forEach(boton => {
+        boton.addEventListener('click', () => {
+          const modoSeleccionado = boton.getAttribute('data-modo');
+          window.estadoJuego.modoSeleccionado = modoSeleccionado;
+          alternarActivo(botonesModo, boton);
         });
       });
 
-      themeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const selectedTheme = button.getAttribute('data-theme') || button.id; // fallback to id if needed
-          gameState.selectedTheme = selectedTheme;
-          toggleActive(themeButtons, button);
-          console.log('Tema seleccionado:', selectedTheme);
+      botonesTema.forEach(boton => {
+        boton.addEventListener('click', () => {
+          const temaSeleccionado = boton.getAttribute('data-theme') || boton.id;
+          window.estadoJuego.temaSeleccionado = temaSeleccionado;
+          alternarActivo(botonesTema, boton);
         });
       });
 
-      if (playButton) {
-        playButton.addEventListener('click', () => {
-          const selectedDifficulty = gameState.selectedDifficulty;
-          if (!selectedDifficulty) {
+      if (botonJugar) {
+        botonJugar.addEventListener('click', () => {
+          const dificultadSeleccionada = window.estadoJuego.dificultadSeleccionada;
+          if (!dificultadSeleccionada) {
             alert('Selecciona una dificultad antes de jugar.');
             return;
           }
-          if (!gameState.selectedMode) {
+          if (!window.estadoJuego.modoSeleccionado) {
             alert('Selecciona un modo de juego antes de jugar.');
             return;
           }
-          const totalCards = difficultyBoardSize[selectedDifficulty] || 16;
-          renderGameBoard(totalCards);
-          if (window.gameLogic) window.gameLogic.start();
-          setGameMode(true);
+          const totalCartas = tamanoTableroDificultad[dificultadSeleccionada] || 16;
+          prepararTablero(totalCartas);
+          if (window.logicaJuego) window.logicaJuego.iniciar();
+          establecerModoJuego(true);
         });
       }
 
-      if (exitButton) {
-        exitButton.addEventListener('click', () => {
-          boardContainer.innerHTML = '';
-          if (window.gameTimer) window.gameTimer.stop();
+      if (botonSalir) {
+        botonSalir.addEventListener('click', () => {
+          if (contenedorTablero) contenedorTablero.innerHTML = '';
+          if (window.temporizadorJuego) window.temporizadorJuego.detener();
           
-          const gameHud = document.getElementById('game-hud');
-          if (gameHud) gameHud.classList.add('hidden');
+          const hudJuego = document.getElementById('game-hud');
+          if (hudJuego) hudJuego.classList.add('hidden');
           
-          setGameMode(false);
+          establecerModoJuego(false);
         });
       }
 });
+
+ const audio = document.getElementById("miAudio");
+  audio.volume = 0.4; 

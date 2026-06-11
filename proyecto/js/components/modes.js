@@ -1,187 +1,187 @@
 // modes.js - estadísticas y control de turnos
-window.gameLogic = {
-    stats: {
-        player1: { name: 'Jugador 1', moves: 0, score: 0 },
-        player2: { name: 'Jugador 2', moves: 0, score: 0 },
-        activePlayer: 'player1',
-        totalMoves: 0,
-        pairsFound: 0
+window.logicaJuego = {
+    estadisticas: {
+        jugador1: { nombre: 'Jugador 1', movimientos: 0, puntaje: 0 },
+        jugador2: { nombre: 'Jugador 2', movimientos: 0, puntaje: 0 },
+        jugadorActivo: 'jugador1',
+        movimientosTotales: 0,
+        paresEncontrados: 0
     },
     
-    start() {
-        const p1Input = document.getElementById('input-p1');
-        const p2Input = document.getElementById('input-p2');
+    iniciar() {
+        const entradaJ1 = document.getElementById('input-p1');
+        const entradaJ2 = document.getElementById('input-p2');
         
-        this.stats.player1.name = p1Input && p1Input.value.trim() !== '' ? p1Input.value : 'Jugador 1';
-        this.stats.player2.name = p2Input && p2Input.value.trim() !== '' ? p2Input.value : 'Jugador 2';
+        this.estadisticas.jugador1.nombre = entradaJ1 && entradaJ1.value.trim() !== '' ? entradaJ1.value : 'Jugador 1';
+        this.estadisticas.jugador2.nombre = entradaJ2 && entradaJ2.value.trim() !== '' ? entradaJ2.value : 'Jugador 2';
 
-        this.stats.player1.moves = 0;
-        this.stats.player1.score = 0;
-        this.stats.player2.moves = 0;
-        this.stats.player2.score = 0;
-        this.stats.activePlayer = 'player1';
-        this.stats.totalMoves = 0;
-        this.stats.pairsFound = 0;
+        this.estadisticas.jugador1.movimientos = 0;
+        this.estadisticas.jugador1.puntaje = 0;
+        this.estadisticas.jugador2.movimientos = 0;
+        this.estadisticas.jugador2.puntaje = 0;
+        this.estadisticas.jugadorActivo = 'jugador1';
+        this.estadisticas.movimientosTotales = 0;
+        this.estadisticas.paresEncontrados = 0;
 
-        if (window.achievementManager) window.achievementManager.resetSession();
+        if (window.gestorLogros) window.gestorLogros.reiniciarSesion();
 
-        const mode = window.gameState ? (window.gameState.currentMode || window.gameState.selectedMode) : 'single';
+        const modo = window.estadoJuego ? (window.estadoJuego.modoActual || window.estadoJuego.modoSeleccionado) : 'solitario';
         
-        this.updateHUDText();
-        this.setActivePlayer('player1');
+        this.actualizarTextoHUD();
+        this.establecerJugadorActivo('jugador1');
 
-        if (window.gameTimer) window.gameTimer.reset();
+        if (window.temporizadorJuego) window.temporizadorJuego.reiniciar();
 
-        const gameHud = document.getElementById('game-hud');
-        if (gameHud) gameHud.classList.remove('hidden');
+        const hudJuego = document.getElementById('game-hud');
+        if (hudJuego) hudJuego.classList.remove('hidden');
 
-        const exitBtn = document.getElementById('exit-button');
-        if (exitBtn) exitBtn.classList.remove('hidden');
+        const botonSalir = document.getElementById('exit-button');
+        if (botonSalir) botonSalir.classList.remove('hidden');
 
-        const scoreHUD = document.getElementById('hud-score');
-        const timerHUD = document.getElementById('hud-timer');
-        if (scoreHUD && timerHUD) {
-            if (mode === 'multiplayer') {
-                scoreHUD.classList.remove('hidden');
-                timerHUD.classList.add('hidden');
-            } else if (mode === 'single' || mode === 'solitario') {
-                scoreHUD.classList.add('hidden');
-                timerHUD.classList.remove('hidden');
+        const hudPuntaje = document.getElementById('hud-score');
+        const hudTemporizador = document.getElementById('hud-timer');
+        if (hudPuntaje && hudTemporizador) {
+            if (modo === 'multijugador') {
+                hudPuntaje.classList.remove('hidden');
+                hudTemporizador.classList.add('hidden');
+            } else if (modo === 'solitario') {
+                hudPuntaje.classList.add('hidden');
+                hudTemporizador.classList.remove('hidden');
             } else {
-                scoreHUD.classList.add('hidden');
-                timerHUD.classList.add('hidden');
+                hudPuntaje.classList.add('hidden');
+                hudTemporizador.classList.add('hidden');
             }
         }
     },
 
-    updateHUDText() {
-        const mode = window.gameState ? (window.gameState.currentMode || window.gameState.selectedMode) : 'single';
-        const hudPlayers = document.getElementById('hud-players');
-        if (hudPlayers) {
-            if (mode === 'multiplayer') {
-                hudPlayers.textContent = 'Modo Versus';
+    actualizarTextoHUD() {
+        const modo = window.estadoJuego ? (window.estadoJuego.modoActual || window.estadoJuego.modoSeleccionado) : 'solitario';
+        const hudJugadores = document.getElementById('hud-players');
+        if (hudJugadores) {
+            if (modo === 'multijugador') {
+                hudJugadores.textContent = 'Modo Versus';
             } else {
-                hudPlayers.textContent = this.stats.player1.name;
+                hudJugadores.textContent = this.estadisticas.jugador1.nombre;
             }
         }
 
-        const p1El = document.getElementById('score-p1');
-        const p2El = document.getElementById('score-p2');
-        if(p1El) p1El.textContent = `${this.stats.player1.name}: ${this.stats.player1.score}`;
-        if(p2El) p2El.textContent = `${this.stats.player2.name}: ${this.stats.player2.score}`;
+        const j1Elemento = document.getElementById('score-p1');
+        const j2Elemento = document.getElementById('score-p2');
+        if(j1Elemento) j1Elemento.textContent = `${this.estadisticas.jugador1.nombre}: ${this.estadisticas.jugador1.puntaje}`;
+        if(j2Elemento) j2Elemento.textContent = `${this.estadisticas.jugador2.nombre}: ${this.estadisticas.jugador2.puntaje}`;
         
-        const movesEl = document.getElementById('moves-count');
-        if(movesEl) movesEl.textContent = this.stats.totalMoves;
+        const movimientosElemento = document.getElementById('moves-count');
+        if(movimientosElemento) movimientosElemento.textContent = this.estadisticas.movimientosTotales;
     },
 
-    setActivePlayer(player) {
-        this.stats.activePlayer = player;
-        const p1El = document.getElementById('score-p1');
-        const p2El = document.getElementById('score-p2');
-        if(p1El && p2El) {
-            if (player === 'player1') {
-                p1El.classList.add('active-player');
-                p2El.classList.remove('active-player');
+    establecerJugadorActivo(jugador) {
+        this.estadisticas.jugadorActivo = jugador;
+        const j1Elemento = document.getElementById('score-p1');
+        const j2Elemento = document.getElementById('score-p2');
+        if(j1Elemento && j2Elemento) {
+            if (jugador === 'jugador1') {
+                j1Elemento.classList.add('active-player');
+                j2Elemento.classList.remove('active-player');
             } else {
-                p2El.classList.add('active-player');
-                p1El.classList.remove('active-player');
+                j2Elemento.classList.add('active-player');
+                j1Elemento.classList.remove('active-player');
             }
         }
     },
 
-    handleFirstClick() {
-        const mode = window.gameState ? (window.gameState.currentMode || window.gameState.selectedMode) : 'single';
-        if (mode === 'single' || mode === 'solitario') {
-            if (window.gameTimer) window.gameTimer.start();
+    manejarPrimerClic() {
+        const modo = window.estadoJuego ? (window.estadoJuego.modoActual || window.estadoJuego.modoSeleccionado) : 'solitario';
+        if (modo === 'solitario') {
+            if (window.temporizadorJuego) window.temporizadorJuego.iniciar();
         }
     },
 
-    handleMatch() {
-        const active = this.stats.activePlayer;
-        this.stats[active].score++;
-        this.stats.pairsFound++;
+    manejarAcierto() {
+        const activo = this.estadisticas.jugadorActivo;
+        this.estadisticas[activo].puntaje++;
+        this.estadisticas.paresEncontrados++;
         
-        this.updateHUDText();
+        this.actualizarTextoHUD();
 
-        if (window.achievementManager) {
-            window.achievementManager.checkMatch(this.stats.totalMoves, this.stats.pairsFound);
+        if (window.gestorLogros) {
+            window.gestorLogros.verificarAcierto(this.estadisticas.movimientosTotales, this.estadisticas.paresEncontrados);
         }
 
         // Check if game ended
-        if (this.stats.pairsFound === window.gameState.totalPairs) {
-            if (window.gameTimer) window.gameTimer.stop();
-            if (window.achievementManager) {
-                const diff = window.gameState ? window.gameState.selectedDifficulty : 'easy';
-                const time = window.gameTimer ? window.gameTimer.elapsed : 999;
-                window.achievementManager.checkGameEnd(time, diff);
+        if (this.estadisticas.paresEncontrados === window.estadoJuego.paresTotales) {
+            if (window.temporizadorJuego) window.temporizadorJuego.detener();
+            if (window.gestorLogros) {
+                const dificultad = window.estadoJuego ? window.estadoJuego.dificultadSeleccionada : 'facil';
+                const tiempo = window.temporizadorJuego ? window.temporizadorJuego.tiempoTranscurrido : 999;
+                window.gestorLogros.verificarFinJuego(tiempo, dificultad);
             }
             setTimeout(() => {
-                this.showEndScreen();
+                this.mostrarPantallaFin();
             }, 800);
         }
     },
 
-    handleMove(isMatch) {
-        this.stats.totalMoves++;
-        const active = this.stats.activePlayer;
-        this.stats[active].moves++;
+    manejarMovimiento(esAcierto) {
+        this.estadisticas.movimientosTotales++;
+        const activo = this.estadisticas.jugadorActivo;
+        this.estadisticas[activo].movimientos++;
         
-        this.updateHUDText();
+        this.actualizarTextoHUD();
 
-        const mode = window.gameState ? (window.gameState.currentMode || window.gameState.selectedMode) : 'single';
-        if (!isMatch) {
-            if (window.achievementManager) window.achievementManager.checkMismatch();
+        const modo = window.estadoJuego ? (window.estadoJuego.modoActual || window.estadoJuego.modoSeleccionado) : 'solitario';
+        if (!esAcierto) {
+            if (window.gestorLogros) window.gestorLogros.verificarFallo();
         }
         
-        if (mode === 'multiplayer') {
-            if (!isMatch) {
+        if (modo === 'multijugador') {
+            if (!esAcierto) {
                 // Swap turns
-                this.stats.activePlayer = active === 'player1' ? 'player2' : 'player1';
-                this.setActivePlayer(this.stats.activePlayer);
+                this.estadisticas.jugadorActivo = activo === 'jugador1' ? 'jugador2' : 'jugador1';
+                this.establecerJugadorActivo(this.estadisticas.jugadorActivo);
             }
         }
     },
 
-    showEndScreen() {
+    mostrarPantallaFin() {
         const modal = document.createElement('div');
         modal.id = 'end-screen-modal';
         modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10000;color:white;font-family:system-ui,sans-serif;';
 
-        const mode = window.gameState ? (window.gameState.currentMode || window.gameState.selectedMode) : 'single';
-        let resultText = `<h2 style="font-size:2.5rem;margin-bottom:1rem;color:#FF6204">¡Partida Finalizada!</h2><p style="font-size:1.2rem;margin-bottom:0.5rem;">Movimientos totales: ${this.stats.totalMoves}</p>`;
+        const modo = window.estadoJuego ? (window.estadoJuego.modoActual || window.estadoJuego.modoSeleccionado) : 'solitario';
+        let textoResultado = `<h2 style="font-size:2.5rem;margin-bottom:1rem;color:#FF6204">¡Partida Finalizada!</h2><p style="font-size:1.2rem;margin-bottom:0.5rem;">Movimientos totales: ${this.estadisticas.movimientosTotales}</p>`;
         
-        if (mode === 'multiplayer') {
-            const p1 = this.stats.player1;
-            const p2 = this.stats.player2;
-            resultText += `<p style="font-size:1.2rem;margin-bottom:0.5rem;">${p1.name}: ${p1.score} pares</p>`;
-            resultText += `<p style="font-size:1.2rem;margin-bottom:1.5rem;">${p2.name}: ${p2.score} pares</p>`;
+        if (modo === 'multijugador') {
+            const j1 = this.estadisticas.jugador1;
+            const j2 = this.estadisticas.jugador2;
+            textoResultado += `<p style="font-size:1.2rem;margin-bottom:0.5rem;">${j1.nombre}: ${j1.puntaje} pares</p>`;
+            textoResultado += `<p style="font-size:1.2rem;margin-bottom:1.5rem;">${j2.nombre}: ${j2.puntaje} pares</p>`;
             
-            if (p1.score > p2.score) {
-                resultText += `<h3 style="font-size:2rem;color:#FF6204">¡Ganador: ${p1.name}!</h3>`;
-            } else if (p2.score > p1.score) {
-                resultText += `<h3 style="font-size:2rem;color:#FF6204">¡Ganador: ${p2.name}!</h3>`;
+            if (j1.puntaje > j2.puntaje) {
+                textoResultado += `<h3 style="font-size:2rem;color:#FF6204">¡Ganador: ${j1.nombre}!</h3>`;
+            } else if (j2.puntaje > j1.puntaje) {
+                textoResultado += `<h3 style="font-size:2rem;color:#FF6204">¡Ganador: ${j2.nombre}!</h3>`;
             } else {
-                resultText += `<h3 style="font-size:2rem;color:#FF6204">¡Empate!</h3>`;
+                textoResultado += `<h3 style="font-size:2rem;color:#FF6204">¡Empate!</h3>`;
             }
-        } else if (mode === 'single' || mode === 'solitario') {
-            const timerEl = document.getElementById('timer-count');
-            if (timerEl) resultText += `<p style="font-size:1.2rem;margin-bottom:1.5rem;">Tiempo: ${timerEl.textContent}</p>`;
+        } else if (modo === 'solitario') {
+            const elementoTemporizador = document.getElementById('timer-count');
+            if (elementoTemporizador) textoResultado += `<p style="font-size:1.2rem;margin-bottom:1.5rem;">Tiempo: ${elementoTemporizador.textContent}</p>`;
         }
 
-        const unlockedAchievements = window.achievementManager ? window.achievementManager.getUnlockedAchievements() : [];
-        if (unlockedAchievements.length > 0) {
-            resultText += `<div style="margin-top: 1rem; background: rgba(0,0,0,0.25); padding: 1rem; border-radius: 8px;">`;
-            resultText += `<h4 style="color:#FF6204; margin-bottom: 0.5rem; font-size: 1.1rem;">Logros Desbloqueados en Sesión:</h4>`;
-            resultText += `<ul style="list-style: none; padding: 0; margin: 0; text-align: left; display: inline-block;">`;
-            unlockedAchievements.forEach(a => {
-                resultText += `<li style="font-size: 0.95rem; margin-bottom: 0.3rem;">🏆 <strong>${a.title}</strong>: ${a.desc}</li>`;
+        const logrosDesbloqueados = window.gestorLogros ? window.gestorLogros.obtenerLogrosDesbloqueados() : [];
+        if (logrosDesbloqueados.length > 0) {
+            textoResultado += `<div style="margin-top: 1rem; background: rgba(0,0,0,0.25); padding: 1rem; border-radius: 8px;">`;
+            textoResultado += `<h4 style="color:#FF6204; margin-bottom: 0.5rem; font-size: 1.1rem;">Logros Desbloqueados en Sesión:</h4>`;
+            textoResultado += `<ul style="list-style: none; padding: 0; margin: 0; text-align: left; display: inline-block;">`;
+            logrosDesbloqueados.forEach(a => {
+                textoResultado += `<li style="font-size: 0.95rem; margin-bottom: 0.3rem;">🏆 <strong>${a.titulo}</strong>: ${a.descripcion}</li>`;
             });
-            resultText += `</ul></div>`;
+            textoResultado += `</ul></div>`;
         }
 
         modal.innerHTML = `
             <div style="background: #222; padding: 3rem; border-radius: 16px; text-align: center; max-width: 500px; width: 90%; border: 2px solid #555;">
-                ${resultText}
+                ${textoResultado}
                 <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
                     <button id="btn-replay" style="background:#FF6204; color:white; border:none; padding: 1rem 2rem; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold;">Jugar de Nuevo</button>
                     <button id="btn-menu" style="background:#444; color:white; border:none; padding: 1rem 2rem; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold;">Menú Principal</button>
@@ -192,8 +192,8 @@ window.gameLogic = {
 
         document.getElementById('btn-replay').addEventListener('click', () => {
             document.body.removeChild(modal);
-            const playBtn = document.getElementById('play-button');
-            if(playBtn) playBtn.click();
+            const botonJugar = document.getElementById('play-button');
+            if(botonJugar) botonJugar.click();
         });
 
         document.getElementById('btn-menu').addEventListener('click', () => {

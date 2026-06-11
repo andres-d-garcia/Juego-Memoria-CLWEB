@@ -157,11 +157,20 @@ body.game-active {
     z-index: 2;
 }
 
+/* Efecto de oscurecimiento al momento de hacer clic (presionar) */
+#mode-options button:active, 
+#menu-Dificultad button:active, 
+#opciones-temas button:active {
+    transform: scale(0.96);
+    filter: brightness(0.65); /* Reduce el brillo para que se vea más oscuro */
+}
+
 button.selected {
-    background-color: #271401;
+    background-color: #9A3800; /* Naranja oscuro para indicar que está seleccionado */
     border: 2px solid rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 0 2.5px rgba(255, 154, 50, 0.3);
-    transform: translateY(-1px);
+    transform: scale(0.96) !important; /* Mantiene el tamaño de estar presionado */
+    filter: brightness(0.65) !important; /* Mantiene el oscurecimiento fijo */
 }
 
 #theme-section {

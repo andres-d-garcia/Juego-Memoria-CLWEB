@@ -1,103 +1,103 @@
 // boardRenderer.js - Generación dinámica del tablero (Grid) con lógica de juego
-function renderBoard(container, items, dimensions) {
-  container.innerHTML = '';
+function renderizarTablero(contenedor, elementos, dimensiones) {
+  contenedor.innerHTML = '';
 
-  const grid = document.createElement('div');
-  grid.className = 'board';
-  grid.style.display = 'grid';
-  grid.style.gridTemplateColumns = `repeat(${dimensions.cols}, minmax(0, 1fr))`;
-  grid.style.gridTemplateRows = `repeat(${dimensions.rows}, minmax(0, 1fr))`;
+  const cuadricula = document.createElement('div');
+  cuadricula.className = 'board';
+  cuadricula.style.display = 'grid';
+  cuadricula.style.gridTemplateColumns = `repeat(${dimensiones.columnas}, minmax(0, 1fr))`;
+  cuadricula.style.gridTemplateRows = `repeat(${dimensiones.filas}, minmax(0, 1fr))`;
 
   // Reducir el espacio entre cartas en tableros grandes para que las cartas crezcan
-  let gapSize = '0.75rem'; // Fácil (4x4)
-  if (dimensions.cols >= 8) {
-      gapSize = '0.3rem'; // Difícil (8x8)
-      grid.classList.add('board-hard');
-  } else if (dimensions.cols >= 6) gapSize = '0.5rem'; // Medio (6x6)
-  grid.style.gap = gapSize;
+  let tamanoEspacio = '0.75rem'; // Fácil (4x4)
+  if (dimensiones.columnas >= 8) {
+      tamanoEspacio = '0.3rem'; // Difícil (8x8)
+      cuadricula.classList.add('board-hard');
+  } else if (dimensiones.columnas >= 6) tamanoEspacio = '0.5rem'; // Medio (6x6)
+  cuadricula.style.gap = tamanoEspacio;
 
   // Estado local para la lógica de pares
-  let firstCard = null;
-  let secondCard = null;
-  let lockBoard = false;
-  let isFirstClick = true;
+  let primeraCarta = null;
+  let segundaCarta = null;
+  let bloquearTablero = false;
+  let esPrimerClic = true;
 
-  function resetSelection() {
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
+  function reiniciarSeleccion() {
+    primeraCarta = null;
+    segundaCarta = null;
+    bloquearTablero = false;
   }
 
-  items.forEach(value => {
-    const cell = document.createElement('button');
-    cell.className = 'card';
-    cell.type = 'button';
-    cell.dataset.value = value;
+  elementos.forEach(valor => {
+    const celda = document.createElement('button');
+    celda.className = 'card';
+    celda.type = 'button';
+    celda.dataset.value = valor;
 
     // Verificamos si es una imagen basándonos en las extensiones de formato (acepta webp, gif, svg, jpg, etc.)
-    const isImage = typeof value === 'string' && /\.(png|jpe?g|gif|webp|svg|bmp|avif)(\?.*)?$/i.test(value);
+    const esImagen = typeof valor === 'string' && /\.(png|jpe?g|gif|webp|svg|bmp|avif)(\?.*)?$/i.test(valor);
 
     // Si el valor es una ruta de imagen, lo preparamos como variable CSS para usar de fondo
-    if (isImage) {
-        cell.style.setProperty('--card-front-img', `url('${value}')`);
+    if (esImagen) {
+        celda.style.setProperty('--card-front-img', `url('${valor}')`);
     }
 
     // Estructura interna: un span para el valor (permite ocultarlo por CSS)
-    const face = document.createElement('span');
-    face.className = 'card-face';
-    if (!isImage) {
-        face.textContent = value;
+    const cara = document.createElement('span');
+    cara.className = 'card-face';
+    if (!esImagen) {
+        cara.textContent = valor;
     }
-    cell.appendChild(face);
+    celda.appendChild(cara);
 
-    cell.addEventListener('click', () => {
-      if (lockBoard) return;
-      if (cell === firstCard) return;
-      if (cell.classList.contains('matched')) return;
+    celda.addEventListener('click', () => {
+      if (bloquearTablero) return;
+      if (celda === primeraCarta) return;
+      if (celda.classList.contains('matched')) return;
 
-      if (isFirstClick) {
-          isFirstClick = false;
-          if (window.gameLogic) window.gameLogic.handleFirstClick();
+      if (esPrimerClic) {
+          esPrimerClic = false;
+          if (window.logicaJuego) window.logicaJuego.manejarPrimerClic();
       }
 
-      cell.classList.add('active');
+      celda.classList.add('active');
 
-      if (!firstCard) {
-        firstCard = cell;
+      if (!primeraCarta) {
+        primeraCarta = celda;
         return;
       }
 
-      secondCard = cell;
-      lockBoard = true;
+      segundaCarta = celda;
+      bloquearTablero = true;
 
-      const a = firstCard.dataset.value;
-      const b = secondCard.dataset.value;
-      const isMatch = (a === b);
+      const a = primeraCarta.dataset.value;
+      const b = segundaCarta.dataset.value;
+      const esAcierto = (a === b);
 
-      if (window.gameLogic) {
-          window.gameLogic.handleMove(isMatch);
+      if (window.logicaJuego) {
+          window.logicaJuego.manejarMovimiento(esAcierto);
       }
 
-      if (isMatch) {
-        firstCard.classList.add('matched');
-        secondCard.classList.add('matched');
-        if (window.gameLogic) window.gameLogic.handleMatch();
-        resetSelection();
+      if (esAcierto) {
+        primeraCarta.classList.add('matched');
+        segundaCarta.classList.add('matched');
+        if (window.logicaJuego) window.logicaJuego.manejarAcierto();
+        reiniciarSeleccion();
         return;
       }
 
       // No coinciden -> ocultar después de un delay
       setTimeout(() => {
-        firstCard.classList.remove('active');
-        secondCard.classList.remove('active');
-        resetSelection();
+        primeraCarta.classList.remove('active');
+        segundaCarta.classList.remove('active');
+        reiniciarSeleccion();
       }, 800);
     });
 
-    grid.appendChild(cell);
+    cuadricula.appendChild(celda);
   });
 
-  container.appendChild(grid);
+  contenedor.appendChild(cuadricula);
 }
 
-window.renderBoard = renderBoard;
+window.renderizarTablero = renderizarTablero;

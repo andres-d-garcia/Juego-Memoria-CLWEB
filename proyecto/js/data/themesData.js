@@ -1,4 +1,4 @@
-window.themes = {
+window.datosTemas = {
   'z-fighters': [
     '/proyecto/assets/icons/cartas/guerrerosZ/1.webp',
     '/proyecto/assets/icons/cartas/guerrerosZ/2.webp',
