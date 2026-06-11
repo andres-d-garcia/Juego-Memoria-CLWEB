@@ -9,11 +9,8 @@ Este es un emocionante juego de cartas emparejadas (Memory Match) inspirado en e
 
 Este proyecto fue desarrollado en equipo. A continuación, se detalla la división del trabajo:
 
-* **[Tu Nombre / Andrés]**
-  * **Rol / Tareas:** [Ej. Desarrollo de la lógica principal de JavaScript, integración de estilos CSS y gestión del repositorio en GitHub].
-
-* **[Nombre de tu compañero/a]**
-  * **Rol / Tareas:** [Ej. Recopilación y edición de assets (imágenes y sonidos), diseño de la interfaz de usuario y estructuración del HTML].
+* **[Andrés García]**
+  * **Rol / Tareas:** Desarrollo de la lógica principal de JavaScript, integración de estilos CSS y gestión del repositorio en GitHub.
 
 ---
 
@@ -69,15 +66,17 @@ Para hacer la experiencia más inmersiva, hemos implementado un sistema de **Log
 A continuación, algunas imágenes de nuestro juego en acción:
 
 ### Menú Principal
-!Menú Principal
+
+![alt](/docs/assets/captures/image.png)
 *Selección de modo, dificultad y temática.*
 
 ### Tablero en Juego
-!Tablero en Juego
+
+![alt](/docs/assets/captures/Captura%20de%20pantalla%202026-06-11%20193543.png)
 *Demostración visual del emparejamiento de cartas.*
 
 ### Pantalla de Victoria y Logros
-!Pantalla de Victoria
+![alt](https://)
 *Resumen de movimientos, tiempo final y logros desbloqueados.*
 
 ---
