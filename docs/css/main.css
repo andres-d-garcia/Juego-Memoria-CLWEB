@@ -444,6 +444,27 @@ body.game-active #game {
     line-height: 1;
 }
 
+/* Botón de mutear música */
+#mute-button {
+    display: inline-flex;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    font-size: 2.2rem;
+    cursor: pointer;
+    z-index: 10010;
+}
+
+#mute-button:hover {
+    transform: scale(1.15);
+}
 
 /* --- Responsive: Ajustes para pantallas pequeñas --- */
 @media (max-width: 900px) {
@@ -494,6 +515,11 @@ body.game-active #game {
 
     #opciones-temas {
         padding-right: 0;
+    }
+    
+    #opciones-temas button {
+        font-size: 1.1rem;
+        padding: 1rem 0.5rem;
     }
 
     #play-button {

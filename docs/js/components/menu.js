@@ -155,4 +155,13 @@ if (audio) {
             audio.play().catch(error => console.log("Autoplay bloqueado por el navegador:", error));
         }
     }, { once: true });
+
+    // Lógica del botón de mute
+    const muteButton = document.getElementById("mute-button");
+    if (muteButton) {
+        muteButton.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            muteButton.textContent = audio.muted ? '🔇' : '🔊';
+        });
+    }
 }
