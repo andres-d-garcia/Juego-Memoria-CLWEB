@@ -39,7 +39,8 @@ function renderizarTablero(contenedor, elementos, dimensiones) {
 
     // Si el valor es una ruta de imagen, lo preparamos como variable CSS para usar de fondo
     if (esImagen) {
-        celda.style.setProperty('--card-front-img', `url('${valor}')`);
+        const rutaAbsoluta = new URL(valor, window.location.href).href;
+        celda.style.setProperty('--card-front-img', `url('${rutaAbsoluta}')`);
     }
 
     // Estructura interna: un span para el valor (permite ocultarlo por CSS)
