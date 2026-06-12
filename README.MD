@@ -34,7 +34,7 @@ Para evitar restricciones de seguridad del navegador relacionadas con los módul
 
 ### Opción 3: Jugar en línea
 ¡El juego está desplegado en GitHub Pages! Puedes jugarlo ahora mismo haciendo clic en el siguiente enlace:
-👉 **Jugar Memory Tenkaichi** *(Asegúrate de actualizar el link con tu URL real)*.
+👉 **Jugar Memory Tenkaichi** *(https://andres-d-garcia.github.io/Memory-Tenkaichi/)*.
 
 ---
 
