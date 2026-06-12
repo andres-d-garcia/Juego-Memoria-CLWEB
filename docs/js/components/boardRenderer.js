@@ -46,6 +46,10 @@ function renderizarTablero(contenedor, elementos, dimensiones) {
         }
         const rutaAbsoluta = new URL(valor, urlBase).href;
         celda.style.setProperty('--card-front-img', `url('${rutaAbsoluta}')`);
+        
+        // Precargar la imagen en la caché del navegador para evitar parpadeos
+        const imgPreload = new Image();
+        imgPreload.src = rutaAbsoluta;
     }
 
     // Estructura interna: un span para el valor (permite ocultarlo por CSS)
