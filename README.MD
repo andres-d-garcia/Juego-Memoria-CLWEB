@@ -76,7 +76,7 @@ A continuación, algunas imágenes de nuestro juego en acción:
 *Demostración visual del emparejamiento de cartas.*
 
 ### Pantalla de Victoria y Logros
-![alt](/docs/assets/captures/Captura%20de%20pantalla%202026-06-11%20193543.png)
+![alt](/docs/assets/captures/Captura%20de%20pantalla%202026-06-11%20200643.png)
 *Resumen de movimientos, tiempo final y logros desbloqueados.*
 
 ---
