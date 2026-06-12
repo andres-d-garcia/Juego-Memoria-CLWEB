@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const audio = document.getElementById("miAudio");
 if (audio) {
-    audio.volume = 0.25; 
+    audio.volume = 0.15; 
 
     // Iniciar la música con la primera interacción del usuario
     document.body.addEventListener('click', function() {
